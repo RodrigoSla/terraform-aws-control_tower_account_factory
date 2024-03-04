@@ -73,7 +73,7 @@ def create_configuration_version(workspace_id, api_token):
     }
     print("endpoint: {}", endpoint)
     print("headers: {}", headers)
-    print("payload: {}", payload
+    print("payload: {}", payload)
     response = __post(endpoint, headers, payload)
     cv_id = response["data"]["id"]
     upload_url = response["data"]["attributes"]["upload-url"]
