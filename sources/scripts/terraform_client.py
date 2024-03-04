@@ -71,9 +71,9 @@ def create_configuration_version(workspace_id, api_token):
             "attributes": {"auto-queue-runs": False},
         }
     }
-    print("endpoint: {}", endpoint)
-    print("headers: {}", headers)
-    print("payload: {}", payload)
+    print("endpoint: {}".format(endpoint))
+    print("headers: {}".format(headers))
+    print("payload: {}".format(payload))
     response = __post(endpoint, headers, payload)
     cv_id = response["data"]["id"]
     upload_url = response["data"]["attributes"]["upload-url"]
