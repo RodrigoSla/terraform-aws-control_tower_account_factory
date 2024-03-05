@@ -193,6 +193,24 @@ resource "aws_ssm_parameter" "terraform_api_endpoint" {
   value = var.terraform_api_endpoint
 }
 
+resource "aws_ssm_parameter" "terraform_workspace_prefix" {
+  name  = "/aft/config/terraform/workspace-prefix"
+  type  = "String"
+  value = var.terraform_workspace_prefix
+}
+
+resource "aws_ssm_parameter" "terraform_core_project_name" {
+  name  = "/aft/config/terraform/core-project-name"
+  type  = "String"
+  value = var.terraform_core_project_name
+}
+
+resource "aws_ssm_parameter" "terraform_customization_project_prefix" {
+  name  = "/aft/config/terraform/customization-project-prefix"
+  type  = "String"
+  value = var.terraform_customization_project_prefix
+}
+
 resource "aws_ssm_parameter" "terraform_token" {
   name  = "/aft/config/terraform/token"
   type  = "SecureString"

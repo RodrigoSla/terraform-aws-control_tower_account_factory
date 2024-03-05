@@ -125,6 +125,18 @@ variable "terraform_api_endpoint" {
   type = string
 }
 
+variable "terraform_workspace_prefix" {
+  type = string
+}
+
+variable "terraform_core_project_name" {
+  type = string
+}
+
+variable "terraform_customization_project_prefix" {
+  type = string
+}
+
 variable "terraform_token" {
   type      = string
   sensitive = true

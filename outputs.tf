@@ -126,6 +126,19 @@ output "terraform_api_endpoint" {
   value = var.terraform_api_endpoint
 }
 
+output "terraform_workspace_prefix" {
+  value = var.terraform_workspace_prefix
+}
+
+output "terraform_core_project_name" {
+  value = var.terraform_core_project_name
+}
+
+output "terraform_customization_project_prefix" {
+  value = var.terraform_customization_project_prefix
+}
+
+
 #########################################
 # AFT VPC Variables
 #########################################

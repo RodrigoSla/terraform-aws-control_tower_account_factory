@@ -339,13 +339,31 @@ variable "terraform_api_endpoint" {
   }
 }
 
+variable "terraform_workspace_prefix" {
+  description = "Prefix for the Terraform workspace name."
+  type        = string
+  default     = "aws"
+}
+
+variable "terraform_core_project_name" {
+  description = "Name of the core project for AFT for use in TFE / TFC."
+  type        = string
+  default     = "aft-core"
+}
+
+variable "terraform_customization_project_prefix" {
+  description = "Prefix for the projects for accounts for use in TFE / TFC."
+  type        = string
+  default     = "account"
+}
+
 #########################################
 # AFT VPC Variables
 #########################################
 variable "aft_enable_vpc" {
   description = "Flag turning use of VPC on/off for AFT"
   type        = bool
-  default     = true
+  default     = false #changed
   validation {
     condition     = contains([true, false], var.aft_enable_vpc)
     error_message = "Valid values for var: aft_enable_vpc are (true, false)."

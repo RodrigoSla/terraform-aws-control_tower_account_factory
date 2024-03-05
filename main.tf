@@ -246,6 +246,9 @@ module "aft_ssm_parameters" {
   tf_version                                                  = var.terraform_version
   tf_distribution                                             = var.terraform_distribution
   terraform_api_endpoint                                      = var.terraform_api_endpoint
+  terraform_workspace_prefix                                  = var.terraform_workspace_prefix
+  terraform_core_project_name                                 = var.terraform_core_project_name
+  terraform_customization_project_prefix                      = var.terraform_customization_project_prefix
   account_request_repo_branch                                 = var.account_request_repo_branch
   account_request_repo_name                                   = var.account_request_repo_name
   vcs_provider                                                = var.vcs_provider
