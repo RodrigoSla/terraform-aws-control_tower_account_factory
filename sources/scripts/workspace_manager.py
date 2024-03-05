@@ -13,20 +13,20 @@ import terraform_client as terraform
 
 
 def setup_and_run_workspace(
-    organization_name, workspace_name, assume_role_arn, role_session_name, api_token
+    organization_name, project_name, workspace_name, assume_role_arn, role_session_name, api_token
 ):
     workspace_id = setup_workspace(
-        organization_name, workspace_name, assume_role_arn, role_session_name, api_token
+        organization_name, project_name, workspace_name, assume_role_arn, role_session_name, api_token
     )
     run_id = stage_run(workspace_id, assume_role_arn, role_session_name, api_token)
     return run_id
 
 
 def setup_workspace(
-    organization_name, workspace_name, assume_role_arn, role_session_name, api_token
+    organization_name, project_name, workspace_name, assume_role_arn, role_session_name, api_token
 ):
     workspace_id = terraform.create_workspace(
-        organization_name, workspace_name, api_token
+        organization_name, project_name, workspace_name, api_token
     )
     print(
         "Successfully created workspace {} with ID {}".format(
@@ -102,7 +102,7 @@ def set_aws_credentials(workspace_id, assume_role_arn, role_session_name, api_to
             role_credentials["AccessKeyId"],
             "AWS access key",
             workspace_id,
-            False,
+            False, # Sets sensitivity
             "env",
             api_token,
         )
@@ -243,6 +243,9 @@ if __name__ == "__main__":
         "--workspace_name", type=str, help="Name of the workspace to be created"
     )
     parser.add_argument(
+        "--project_name", type=str, help="Name of the project where the workspace will be created in"
+    )
+    parser.add_argument(
         "--assume_role_arn", type=str, help="IAM Role ARN to be used by the workspace"
     )
     parser.add_argument(
@@ -273,6 +276,7 @@ if __name__ == "__main__":
     elif args.operation == "deploy":
         setup_and_run_workspace(
             args.organization_name,
+            args.project_name,
             args.workspace_name,
             args.assume_role_arn,
             args.assume_role_session_name,

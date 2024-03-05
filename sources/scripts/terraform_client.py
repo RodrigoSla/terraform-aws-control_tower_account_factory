@@ -36,8 +36,48 @@ def check_workspace_exists(organization_name, workspace_name, api_token):
             return data["data"]["id"]
     return None
 
+def create_project(project_name, organization_name, api_token):
+    project_id = check_project_exists(project_name, organization_name, api_token)
+    if project_id:
+        return project_id
+    else:
+        print("Creating project {}".format(project_name))
+        endpoint = "{}/organizations/{}/projects".format(
+            TERRAFORM_API_ENDPOINT, organization_name
+        )
 
-def create_workspace(organization_name, workspace_name, api_token):
+        headers = __build_standard_headers(api_token)
+        payload = {
+            "data": {
+                "attributes": {
+                    "name": project_name,
+                },
+                "type": "projects",
+            }
+        }
+        response = __post(endpoint, headers, payload)
+        return response["data"]["id"]
+
+def check_project_exists(project_name, organization_name, api_token):
+    # Querying for project name
+    print("Checking if project {} exists".format(project_name))
+    endpoint = "{}/organizations/{}/projects".format(
+        TERRAFORM_API_ENDPOINT, organization_name
+    )
+    headers = __build_standard_headers(api_token)
+    tf_dist = os.environ.get("TF_DISTRIBUTION")
+    response = requests.get(endpoint, headers=headers, verify=tf_dist != "tfe")
+    data = response.json()
+    if "data" in data.keys():
+        for value in data["data"]:
+            if value["attributes"]["name"] == project_name:
+                return value["id"]
+    return None
+
+
+
+def create_workspace(organization_name, project_name, workspace_name, api_token):
+    project_id = create_project(project_name, organization_name, api_token)
     workspace_id = check_workspace_exists(organization_name, workspace_name, api_token)
     if workspace_id:
         return workspace_id
@@ -52,6 +92,14 @@ def create_workspace(organization_name, workspace_name, api_token):
                     "name": workspace_name,
                     "terraform-version": TERRAFORM_VERSION,
                     "auto-apply": True,
+                },
+                "relationships": {
+                    "project": {
+                        "data": {
+                            "type": "projects",
+                            "id": project_id
+                        }
+                    }
                 },
                 "type": "workspaces",
             }
